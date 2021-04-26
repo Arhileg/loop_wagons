@@ -12,11 +12,11 @@ class Wagon:
     next: None
     light: bool
     number: int
-    
+
     def __init__(self, number):
         self.light = random.choice([True, False])
         self.number = number
-        
+
     def set_next(self, next):
         self.next = next
 
@@ -31,7 +31,7 @@ class Wagon:
 
     def set_light(self, light_onoff):
         self.light = light_onoff
-        
+
     def get_light(self):
         return self.light
 
@@ -61,17 +61,19 @@ def make_loop_wagons():
 
 def count_wagons(wagon):
     qty_wagons = 0
+    step = 0
     buff_number = 1
     direct = True
     print(
-        "Wagon {}, light {}, direct {}, buff_number {}, qty_wagons {}".format(
-            wagon.number, wagon.get_light(), direct, buff_number, qty_wagons
+        "Step #{}, Wagon {}, light {}, direct {}, buff_number {}, qty_wagons {}".format(
+            step, wagon.number, wagon.get_light(), direct, buff_number, qty_wagons
         )
     )
     if not wagon.light:
         wagon.set_light(True)
         print('Turn light on')
     while True:
+        step += 1
         if buff_number==1 and not direct and not wagon.get_light():
             print(random.choice(STATEMENT_PHRASES))
             return qty_wagons
@@ -85,8 +87,8 @@ def count_wagons(wagon):
             wagon = wagon.get_previous()
             buff_number -= 1
         print(
-            "Wagon {}, light {}, direct {}, buff_number {}, qty_wagons {}".format(
-                wagon.number, wagon.get_light(), direct, buff_number, qty_wagons
+            "Step #{}, Wagon {}, light {}, direct {}, buff_number {}, qty_wagons {}".format(
+                step, wagon.number, wagon.get_light(), direct, buff_number, qty_wagons
             )
         )
         if wagon.get_light() and buff_number != 1:
