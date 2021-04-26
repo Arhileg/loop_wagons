@@ -1,5 +1,11 @@
 import random
 
+STATEMENT_PHRASES = [
+    "Well, of course!",
+    "I knew it!",
+    "Well it's finally over",
+]
+
 
 class Wagon:
     previous: None
@@ -57,28 +63,37 @@ def count_wagons(wagon):
     qty_wagons = 0
     buff_number = 1
     direct = True
+    print(
+        "Wagon {}, light {}, direct {}, buff_number {}, qty_wagons {}".format(
+            wagon.number, wagon.get_light(), direct, buff_number, qty_wagons
+        )
+    )
     if not wagon.light:
         wagon.set_light(True)
+        print('Turn light on')
     while True:
-        print(
-            "Wagon {}, light {}, direct {}, buff_number {}, qty_wagons {}".format(
-                wagon.number, wagon.get_light(), direct, buff_number, qty_wagons
-            )
-        )
         if buff_number==1 and not direct and not wagon.get_light():
+            print(random.choice(STATEMENT_PHRASES))
             return qty_wagons
         elif buff_number==1 and not direct:
             direct = True
+            print('switch direct')
         if direct:
             wagon = wagon.get_next()
             buff_number += 1
         else:
             wagon = wagon.get_previous()
             buff_number -= 1
+        print(
+            "Wagon {}, light {}, direct {}, buff_number {}, qty_wagons {}".format(
+                wagon.number, wagon.get_light(), direct, buff_number, qty_wagons
+            )
+        )
         if wagon.get_light() and buff_number != 1:
             qty_wagons = buff_number-1
             wagon.set_light(False)
             direct = False
+            print('turn light off; switch direct')
 
 def main():
     wagons_list = make_loop_wagons()
@@ -91,7 +106,7 @@ def main():
                 )
             )
         print('Start from', wagon_to_start.number)
-        print(count_wagons(wagon_to_start))
+        print('Number of wagons #', count_wagons(wagon_to_start))
     else:
         print('wagons_list is empty, try enter correct value')
 
